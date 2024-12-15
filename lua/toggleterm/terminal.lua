@@ -37,7 +37,11 @@ local function get_newline_chr()
   local shell = config.get("shell")
   if type(shell) == "function" then shell = shell() end
   if is_windows then
-    return is_pwsh(shell) and "\r" or "\r\n"
+    if is_pwsh(shell) or is_nushell(shell) then 
+      return "\r"
+    else 
+      return "\r\n"
+    end
   elseif is_nushell(shell) then
     return "\r"
   else
